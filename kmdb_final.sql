@@ -1,20 +1,18 @@
--- In this assignment, you'll be building the domain model, database 
+-- In this assignment, you'll be building the domain model, database
 -- structure, and data for "KMDB" (the Kellogg Movie Database).
--- The end product will be a report that prints the movies and the 
--- top-billed cast for each movie in the database.
-
+-- The end product will be a report that prints the movies and the
+-- top-billed crew for each movie in the database.
 -- Requirements/assumptions
 --
--- - There will only be three movies in the database – the three films
+-- - There will only be three movies in the database – the three films
 --   that make up Christopher Nolan's Batman trilogy
 -- - Movie data includes the movie title, year released, MPAA rating,
 --   and director
 -- - A movie has a single director
 -- - A person can be the director of and/or play a role in a movie
 -- - Everything you need to do in this assignment is marked with TODO!
-
 -- Rubric
--- 
+--
 -- There are three deliverables for this assignment, all delivered via
 -- this file and submitted via GitHub and Canvas:
 -- - A domain model, implemented via CREATE TABLE statements for each
@@ -24,28 +22,22 @@
 -- - Insertion of "Batman" sample data into tables (5 points)
 -- - Selection of data, so that something similar to the following sample
 --   "report" can be achieved (5 points)
-
 -- Submission
--- 
+--
 -- - "Use this template" to create a brand-new "hw1" repository in your
 --   personal GitHub account, e.g. https://github.com/<USERNAME>/hw1
 -- - Do the assignment, committing and syncing often
 -- - When done, commit and sync a final time, before submitting the GitHub
---   URL for the finished "hw1" repository as the "Website URL" for the 
+--   URL for the finished "hw1" repository as the "Website URL" for the
 --   Homework 1 assignment in Canvas
-
 -- Successful sample output is as shown:
-
 -- Movies
 -- ======
-
 -- Batman Begins          2005           PG-13  Christopher Nolan
 -- The Dark Knight        2008           PG-13  Christopher Nolan
 -- The Dark Knight Rises  2012           PG-13  Christopher Nolan
-
 -- Top Cast
 -- ========
-
 -- Batman Begins          Christian Bale        Bruce Wayne
 -- Batman Begins          Michael Caine         Alfred
 -- Batman Begins          Liam Neeson           Ra's Al Ghul
@@ -61,21 +53,16 @@
 -- The Dark Knight Rises  Tom Hardy             Bane
 -- The Dark Knight Rises  Joseph Gordon-Levitt  John Blake
 -- The Dark Knight Rises  Anne Hathaway         Selina Kyle
-
 -- Turns column mode on but headers off
 .mode column
 .headers off
-
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
-
 DROP TABLE IF EXISTS movies;
-DROP TABLE IF EXISTS cast;
-DROP TABLE IF EXISTS movie_cast;
-
+DROP TABLE IF EXISTS crew;
+DROP TABLE IF EXISTS movie_crew;
 -- Create new tables, according to your domain model
 -- TODO!
-
 CREATE TABLE movies (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 title TEXT,
@@ -84,25 +71,28 @@ rating TEXT,
 director TEXT
 );
 
-CREATE TABLE cast (
+CREATE TABLE crew (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 actor TEXT,
-character TEXT,
-movie_id INTEGER
+character TEXT
 );
 
+CREATE TABLE movie_crew (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+movie_id INTEGER,
+crew_id INTEGER
+);
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
-
 INSERT INTO movies (
 title,
 release_year,
 rating,
 director
-) 
+)
 VALUES (
-"Batman Begins", 
+"Batman Begins",
 2005,
 "PG-13",
 "Christopher Nolan"
@@ -120,87 +110,115 @@ VALUES (
 "Christopher Nolan"
 );
 
-INSERT INTO cast (
+INSERT INTO crew (
 actor,
-character,
-movie_id
+character
 ) 
 VALUES (
 "Christian Bale",
-"Bruce Wayne",
-1
+"Bruce Wayne"
 ),
 (
 "Michael Caine",
-"Alfred",
-1
+"Alfred"
 ),
 (
 "Liam Neeson",
-"Ra's Al Ghul",
-1
+"Ra's Al Ghul"
 ),
 (
 "Katie Holmes",
-"Rachel Dawes",
-1
+"Rachel Dawes"
 ),
 (
 "Gary Oldman",
-"Commissioner Gordon",
-1
-),
-(
-"Christian Bale",
-"Bruce Wayne",
-2
+"Commissioner Gordon"
 ),
 (
 "Heath Ledger",
-"Joker",
-2
+"Joker"
 ),
 (
 "Aaron Eckhart",
-"Harvey Dent",
-2
-),
-(
-"Michael Caine",
-"Alfred",
-2
+"Harvey Dent"
 ),
 (
 "Maggie Gyllenhaal",
-"Rachel Dawes",
-2
-),
-(
-"Christian Bale",
-"Bruce Wayne",
-3
-),
-(
-"Gary Oldman",
-"Commissioner Gordon",
-3
+"Rachel Dawes"
 ),
 (
 "Tom Hardy",
-"Bane",
-3
+"Bane"
 ),
 (
 "Joseph Gordon-Levitt",
-"John Blake",
-3
+"John Blake"
 ),
 (
 "Anne Hathaway",
-"Selina Kyle",
-3
+"Selina Kyle"
 );
 
+INSERT INTO movie_crew (
+movie_id,
+crew_id
+)
+VALUES (
+1,
+1
+),
+(
+1,
+2
+),
+(
+1,
+3
+),
+(
+1,
+4
+),
+(
+1,
+5
+),
+(
+2,
+1
+),
+(
+2,
+6
+),
+(
+2,
+7
+),
+(
+2,
+2
+),
+(
+3,
+1
+),
+(
+3,
+5
+),
+(
+3,
+9
+),
+(
+3,
+10
+),
+(
+3,
+11
+);
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -210,18 +228,20 @@ VALUES (
 -- The SQL statement for the movies output
 -- TODO!
 
-SELECT * FROM movies;
+SELECT title, release_year, rating, director FROM movies;
 
--- Prints a header for the cast output
+-- Prints a header for the crew output
+
 .print ""
 .print "Top Cast"
 .print "========"
 .print ""
 
-
--- The SQL statement for the cast output
+-- The SQL statement for the crew output
 -- TODO!
 
-SELECT movies.title, cast.actor, cast.character
-FROM cast INNER JOIN movies ON movies.id = cast.movie_id
+SELECT movies.title, crew.actor, crew.character 
+FROM movies 
+INNER JOIN movie_crew ON movie_crew.movie_id = movies.id
+INNER JOIN crew ON crew.id = movie_crew.crew_id
 ;
