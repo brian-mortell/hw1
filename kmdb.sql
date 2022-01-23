@@ -71,7 +71,6 @@
 
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS cast;
-DROP TABLE IF EXISTS movie_cast;
 
 -- Create new tables, according to your domain model
 -- TODO!
@@ -87,13 +86,8 @@ director TEXT
 CREATE TABLE cast (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 actor TEXT,
-character TEXT
-);
-
-CREATE TABLE movie_cast (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-movie_id INTEGER,
-cast_id INTEGER
+character TEXT,
+movie_id INTEGER
 );
 
 -- Insert data into your database that reflects the sample data shown above
@@ -127,51 +121,83 @@ VALUES (
 
 INSERT INTO cast (
 actor,
-character
+character,
+movie_id
 ) 
 VALUES (
 "Christian Bale",
-"Bruce Wayne"
+"Bruce Wayne",
+1
 ),
 (
 "Michael Caine",
-"Alfred"
+"Alfred",
+1
 ),
 (
 "Liam Neeson",
-"Ra's Al Ghul"
+"Ra's Al Ghul",
+1
 ),
 (
 "Katie Holmes",
-"Rachel Dawes"
+"Rachel Dawes",
+1
 ),
 (
 "Gary Oldman",
-"Commissioner Gordon"
+"Commissioner Gordon",
+1
+),
+(
+"Christian Bale",
+"Bruce Wayne",
+2
 ),
 (
 "Heath Ledger",
-"Joker"
+"Joker",
+2
 ),
 (
 "Aaron Eckhart",
-"Harvey Dent"
+"Harvey Dent",
+2
+),
+(
+"Michael Caine",
+"Alfred",
+2
 ),
 (
 "Maggie Gyllenhaal",
-"Rachel Dawes"
+"Rachel Dawes",
+2
+),
+(
+"Christian Bale",
+"Bruce Wayne",
+3
+),
+(
+"Gary Oldman",
+"Commissioner Gordon",
+3
 ),
 (
 "Tom Hardy",
-"Bane"
+"Bane",
+3
 ),
 (
 "Joseph Gordon-Levitt",
-"John Blake"
+"John Blake",
+3
 ),
 (
 "Anne Hathaway",
-"Selina Kyle"
+"Selina Kyle",
+3
 );
 
 
@@ -179,67 +205,6 @@ VALUES (
 .print "Movies"
 .print "======"
 .print ""
-
-INSERT INTO movie_cast (
-movie_id,
-cast_id
-)
-VALUES (
-1,
-1
-),
-(
-1,
-2
-),
-(
-1,
-3
-),
-(
-1,
-4
-),
-(
-1,
-5
-),
-(
-2,
-1
-),
-(
-2,
-6
-),
-(
-2,
-7
-),
-(
-2,
-2
-),
-(
-3,
-1
-),
-(
-3,
-5
-),
-(
-3,
-9
-),
-(
-3,
-10
-),
-(
-3,
-11
-);
 
 -- The SQL statement for the movies output
 -- TODO!
@@ -257,12 +222,8 @@ SELECT * FROM movies;
 -- TODO!
 
 SELECT movies.title, cast.actor, cast.character 
-FROM movies 
-INNER JOIN movie_cast ON cast.id = movie_cast.cast_id
-INNER JOIN movie_cast ON movies.id = movie_cast.movie_id
+FROM cast 
+INNER JOIN movies ON movies.id = cast.movie_id
 ;
 
-
-should the movie model have a cast id, since 1 person can be in multiple movies? 
-But a movie can have multiple people? so the movie cast model is created to tie them together?
-or since 1 movie has multiple people, there should be a movie id under the cast model?
+SELECT movie_id, actor, character FROM cast;
