@@ -71,6 +71,7 @@
 
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS cast;
+DROP TABLE IF EXISTS movie_cast;
 
 -- Create new tables, according to your domain model
 -- TODO!
@@ -221,9 +222,6 @@ SELECT * FROM movies;
 -- The SQL statement for the cast output
 -- TODO!
 
-SELECT movies.title, cast.actor, cast.character 
-FROM cast 
-INNER JOIN movies ON movies.id = cast.movie_id
+SELECT movies.title, cast.actor, cast.character
+FROM cast INNER JOIN movies ON movies.id = cast.movie_id
 ;
-
-SELECT movie_id, actor, character FROM cast;
