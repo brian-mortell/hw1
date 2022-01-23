@@ -92,7 +92,7 @@ character TEXT
 
 CREATE TABLE movie_cast (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
-movies_id INTEGER,
+movie_id INTEGER,
 cast_id INTEGER
 );
 
@@ -180,8 +180,71 @@ VALUES (
 .print "======"
 .print ""
 
+INSERT INTO movie_cast (
+movie_id,
+cast_id
+)
+VALUES (
+1,
+1
+),
+(
+1,
+2
+),
+(
+1,
+3
+),
+(
+1,
+4
+),
+(
+1,
+5
+),
+(
+2,
+1
+),
+(
+2,
+6
+),
+(
+2,
+7
+),
+(
+2,
+2
+),
+(
+3,
+1
+),
+(
+3,
+5
+),
+(
+3,
+9
+),
+(
+3,
+10
+),
+(
+3,
+11
+);
+
 -- The SQL statement for the movies output
 -- TODO!
+
+SELECT * FROM movies;
 
 -- Prints a header for the cast output
 .print ""
@@ -192,3 +255,4 @@ VALUES (
 
 -- The SQL statement for the cast output
 -- TODO!
+
