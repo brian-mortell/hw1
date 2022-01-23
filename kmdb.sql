@@ -256,3 +256,13 @@ SELECT * FROM movies;
 -- The SQL statement for the cast output
 -- TODO!
 
+SELECT movies.title, cast.actor, cast.character 
+FROM movies 
+INNER JOIN movie_cast ON cast.id = movie_cast.cast_id
+INNER JOIN movie_cast ON movies.id = movie_cast.movie_id
+;
+
+
+should the movie model have a cast id, since 1 person can be in multiple movies? 
+But a movie can have multiple people? so the movie cast model is created to tie them together?
+or since 1 movie has multiple people, there should be a movie id under the cast model?
