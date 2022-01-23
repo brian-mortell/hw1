@@ -69,12 +69,111 @@
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
 
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS cast;
+DROP TABLE IF EXISTS movie_cast;
+
 -- Create new tables, according to your domain model
 -- TODO!
+
+CREATE TABLE movies (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+title TEXT,
+release_year INTEGER,
+rating TEXT,
+director TEXT
+);
+
+CREATE TABLE cast (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+actor TEXT,
+character TEXT
+);
+
+CREATE TABLE movie_cast (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+movies_id INTEGER,
+cast_id INTEGER
+);
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
+
+INSERT INTO movies (
+title,
+release_year,
+rating,
+director
+) 
+VALUES (
+"Batman Begins", 
+2005,
+"PG-13",
+"Christopher Nolan"
+),
+(
+"The Dark Knight",
+2008,
+"PG-13",
+"Christopher Nolan"
+),
+(
+"The Dark Knight Rises",
+2012,
+"PG-13",
+"Christopher Nolan"
+);
+
+INSERT INTO cast (
+actor,
+character
+) 
+VALUES (
+"Christian Bale",
+"Bruce Wayne"
+),
+(
+"Michael Caine",
+"Alfred"
+),
+(
+"Liam Neeson",
+"Ra's Al Ghul"
+),
+(
+"Katie Holmes",
+"Rachel Dawes"
+),
+(
+"Gary Oldman",
+"Commissioner Gordon"
+),
+(
+"Heath Ledger",
+"Joker"
+),
+(
+"Aaron Eckhart",
+"Harvey Dent"
+),
+(
+"Maggie Gyllenhaal",
+"Rachel Dawes"
+),
+(
+"Tom Hardy",
+"Bane"
+),
+(
+"Joseph Gordon-Levitt",
+"John Blake"
+),
+(
+"Anne Hathaway",
+"Selina Kyle"
+);
+
 
 -- Prints a header for the movies output
 .print "Movies"
